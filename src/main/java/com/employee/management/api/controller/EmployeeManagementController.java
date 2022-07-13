@@ -41,7 +41,13 @@ public class EmployeeManagementController {
 
     @PutMapping("/updateEmployee")
     public Employee updateEmployee(@RequestBody Employee employee) {
-        employeeService.save(employee);
+        Employee employee1 = employeeService.findById(employee.getId());
+
+        employee1.setFirstName(employee.getFirstName());
+        employee1.setLastName(employee.getLastName());
+        employee1.setEmail(employee.getEmail());
+
+        employeeService.save(employee1);
         return employee;
     }
 

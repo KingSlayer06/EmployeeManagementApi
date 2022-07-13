@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**", "/api/addEmployee", "/api/deleteEmployee", "/api/udpateEmployee").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginProcessingUrl("/login").successForwardUrl("/api/employees").permitAll()
+                .formLogin().loginProcessingUrl("/login").permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/login").permitAll()
                 .and()
