@@ -1,6 +1,6 @@
 package com.employee.management.api.config;
 
-import com.employee.management.api.service.UserDetailsServiceImplementation;
+import com.employee.management.api.service.implementation.UserDetailsServiceImplementation;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

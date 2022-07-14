@@ -40,6 +40,7 @@ public class EmployeeManagementController {
     }
 
     @PutMapping("/updateEmployee")
+    @ResponseStatus(HttpStatus.PROCESSING)
     public Employee updateEmployee(@RequestBody Employee employee) {
         Employee employee1 = employeeService.findById(employee.getId());
 
@@ -48,17 +49,28 @@ public class EmployeeManagementController {
         employee1.setEmail(employee.getEmail());
 
         employeeService.save(employee1);
-        return employee;
+        return employee1;
     }
 
     @DeleteMapping("/deleteEmployee/{employeeId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEmployee(@PathVariable int employeeId) {
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseBody
+    public String deleteEmployee(@PathVariable int employeeId) {
         Employee employee = employeeService.findById(employeeId);
 
         if (employee == null)
             throw new RuntimeException("Employee Id: " + employeeId + " not found");
         employeeService.deleteById(employeeId);
-        System.out.println("Deleted employee id - " + employeeId);
+
+        return "Deleted employee id - " + employeeId;
+    }
+
+    @GetMapping("/employees/search/{firstName}")
+    public Employee findByFirstName(@PathVariable String firstName) {
+        Employee employee = employeeService.findByFirstName(firstName);
+
+        if (employee == null)
+            throw new RuntimeException("Employee Name: " + firstName + " not found");
+        return employee;
     }
 }
