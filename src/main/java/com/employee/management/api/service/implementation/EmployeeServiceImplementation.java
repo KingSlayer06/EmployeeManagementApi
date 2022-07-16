@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
@@ -47,16 +48,16 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Transactional
-    public Employee findByFirstName(String firstName) {
+    public List<Employee> findByFirstName(String firstName) {
         return this.employeeRepository.findByFirstName(firstName)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid FirstName"));
     }
 
     @Transactional
-    public List<Employee> sort(String sortOrder, String sortBy) {
-        Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
-                Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-
-        return employeeRepository.findAll();
+    public List<Employee> sortByFirstName(String sortOrder) {
+        if (Objects.equals(sortOrder, "asc"))
+            return employeeRepository.findAll(Sort.by("firstName").ascending());
+        else
+            return employeeRepository.findAll(Sort.by("firstName").descending());
     }
 }

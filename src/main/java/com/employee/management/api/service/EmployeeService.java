@@ -15,7 +15,7 @@ public interface EmployeeService {
 
     public Employee findByEmail(String email);
 
-    public Employee findByFirstName(String firstName);
+    public List<Employee> findByFirstName(String firstName);
 
-    public List<Employee> sort(String sortOrder, String sortBy);
+    public List<Employee> sortByFirstName(String sortOrder);
 }

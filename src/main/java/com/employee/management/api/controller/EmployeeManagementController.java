@@ -33,14 +33,12 @@ public class EmployeeManagementController {
     }
 
     @PostMapping("/addEmployee")
-    @ResponseStatus(HttpStatus.CREATED)
     public Employee addEmployee(@RequestBody Employee employee) {
         employeeService.save(employee);
         return employee;
     }
 
     @PutMapping("/updateEmployee")
-    @ResponseStatus(HttpStatus.PROCESSING)
     public Employee updateEmployee(@RequestBody Employee employee) {
         Employee employee1 = employeeService.findById(employee.getId());
 
@@ -49,11 +47,10 @@ public class EmployeeManagementController {
         employee1.setEmail(employee.getEmail());
 
         employeeService.save(employee1);
-        return employee1;
+        return employee;
     }
 
     @DeleteMapping("/deleteEmployee/{employeeId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public String deleteEmployee(@PathVariable int employeeId) {
         Employee employee = employeeService.findById(employeeId);
@@ -66,11 +63,16 @@ public class EmployeeManagementController {
     }
 
     @GetMapping("/employees/search/{firstName}")
-    public Employee findByFirstName(@PathVariable String firstName) {
-        Employee employee = employeeService.findByFirstName(firstName);
+    public List<Employee> findByFirstName(@PathVariable String firstName) {
+        List<Employee> employee = employeeService.findByFirstName(firstName);
 
         if (employee == null)
             throw new RuntimeException("Employee Name: " + firstName + " not found");
         return employee;
+    }
+
+    @GetMapping("/employees/sort/order={orderBy}")
+    public List<Employee> sortByFirstName(@PathVariable String orderBy) {
+        return employeeService.sortByFirstName(orderBy);
     }
 }
